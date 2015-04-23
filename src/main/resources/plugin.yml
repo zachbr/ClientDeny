@@ -1,0 +1,5 @@
+name: ClientDeny
+main: com.destroystokyo.clientdeny.ClientDeny
+version: ${project.version}
+description: ${git.commit.id.abbrev}
+author: Zbob750
