@@ -1,0 +1,2 @@
+# This message is shown when the user is kicked. Color codes are supported via '&' notation
+kick-message: 'This server only supports 1.7 clients, please reconnect with one.'

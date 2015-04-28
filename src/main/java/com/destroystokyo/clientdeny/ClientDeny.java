@@ -1,5 +1,9 @@
 package com.destroystokyo.clientdeny;
 
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,6 +18,7 @@ public class ClientDeny extends JavaPlugin implements Listener {
     @Override
     public void onEnable()
     {
+        this.saveDefaultConfig();
         this.getServer().getPluginManager().registerEvents(this, this);
     }
 
@@ -22,8 +27,26 @@ public class ClientDeny extends JavaPlugin implements Listener {
     {
         if ( ((CraftPlayer) event.getPlayer() ).getHandle().playerConnection.networkManager.getVersion() > MAX_VERSION )
         {
-            event.getPlayer().kickPlayer("This server only supports 1.7 clients, please reconnect with one.");
+            event.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("kick-message")));
             this.getLogger().log(Level.INFO, "Kicking player " + event.getPlayer().getName() + " for using an unsupported client");
         }
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    {
+        if (command.getName().equals("cd-reload") && checkPerms(sender))
+        {
+            this.reloadConfig();
+            sender.sendMessage("ClientDeny config reloaded");
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean checkPerms(CommandSender sender)
+    {
+        return sender.hasPermission("clientdeny.reload") || sender instanceof ConsoleCommandSender;
     }
 }

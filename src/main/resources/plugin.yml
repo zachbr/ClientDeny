@@ -3,3 +3,7 @@ main: com.destroystokyo.clientdeny.ClientDeny
 version: ${project.version}
 description: ${git.commit.id.abbrev}
 author: Zbob750
+commands:
+    cd-reload:
+        description: Reloads ClientDeny config
+        permission: clientdeny.reload
